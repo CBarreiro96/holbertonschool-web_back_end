@@ -4,10 +4,10 @@
 Exercise:
 Complex types - string and int/float to tuple
 """
-from typing import Union
+from typing import Union, Tuple
 
 
-def to_kv(k: str, v: Union[int, float]) -> tuple[str, float]:
+def to_kv(k: str, v: Union[int, float]) -> Tuple[str, float]:
     """
     takes a string k and an int OR float v as arguments
     :param k:
