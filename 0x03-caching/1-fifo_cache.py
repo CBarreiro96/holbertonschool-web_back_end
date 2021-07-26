@@ -52,3 +52,4 @@ class FIFOCache(BaseCaching):
         return array[0] if array else None
 
 
+
