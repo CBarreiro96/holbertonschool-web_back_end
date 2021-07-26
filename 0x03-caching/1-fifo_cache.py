@@ -18,20 +18,22 @@ class FIFOCache(BaseCaching):
 
     def put(self, key, item):
         """ Puts item in cache """
-        if key is not None and item is not None:
-            if key not in self.queque_lists:
-                self.queque_lists.append(key)
-            else:
-                self.mv_last_list(key)
+        if key is None or item is None:
+            return
 
-            self.cache_data[key] = item
+        if key not in self.queque_lists:
+            self.queque_lists.append(key)
+        else:
+            self.mv_last_list(key)
 
-            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-                first = self.get_first_list(self.queque_lists)
-                if first:
-                    self.queque_lists.pop(0)
-                    del self.cache_data[first]
-                    print("DISCARD: {}".format(first))
+        self.cache_data[key] = item
+
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            first = self.get_first_list(self.queque_lists)
+            if first:
+                self.queque_lists.pop(0)
+                del self.cache_data[first]
+                print("DISCARD: {}".format(first))
 
     def mv_last_list(self, item):
         """ Moves element to last idx of list """
