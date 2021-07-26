@@ -35,6 +35,10 @@ class FIFOCache(BaseCaching):
                 del self.cache_data[first]
                 print("DISCARD: {}".format(first))
 
+    def get(self, key):
+        """ Gets item from cache """
+        return self.cache_data.get(key, None)
+
     def mv_last_list(self, item):
         """ Moves element to last idx of list """
         length = len(self.queque_lists)
