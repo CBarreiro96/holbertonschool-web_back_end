@@ -3,7 +3,8 @@
 Exercise:
 Simple helper function
 """
-from typing import Tuple
+import csv
+from typing import Tuple, List
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -13,6 +14,8 @@ def index_range(page: int, page_size: int) -> Tuple[int, int]:
     end = page * page_size
 
     return start, end
+
+
 class Server:
     """Server class to paginate a database of popular baby names.
     """
