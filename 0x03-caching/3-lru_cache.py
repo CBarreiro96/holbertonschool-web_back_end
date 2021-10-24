@@ -1,52 +1,53 @@
 #!/usr/bin/env python3
-
 """
 Exercise:
-FIFO caching
+LIFO Caching
 """
-
 from base_caching import BaseCaching
 
 
-class FIFOCache(BaseCaching):
-    """ FIFO caching """
+class LRUCache(BaseCaching):
+    """ LRU caching """
 
     def __init__(self):
         """ Constructor """
         super().__init__()
-        self.queque_lists = []
+        self.queue_lists = []
 
     def put(self, key, item):
         """ Puts item in cache """
         if key is None or item is None:
             return
 
-        if key not in self.queque_lists:
-            self.queque_lists.append(key)
-        else:
-            self.mv_last_list(key)
-
         self.cache_data[key] = item
 
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            first = self.get_first_list(self.queque_lists)
+            first = self.get_first_list(self.queue_lists)
             if first:
-                self.queque_lists.pop(0)
+                self.queue_lists.pop(0)
                 del self.cache_data[first]
                 print("DISCARD: {}".format(first))
 
+        if key not in self.queue_lists:
+            self.queue_lists.append(key)
+        else:
+            self.mv_last_list(key)
+
     def get(self, key):
         """ Gets item from cache """
-        return self.cache_data.get(key, None)
+        item = self.cache_data.get(key, None)
+        if item is not None:
+            self.mv_last_list(key)
+        return item
 
     def mv_last_list(self, item):
         """ Moves element to last idx of list """
-        length = len(self.queque_lists)
-        if self.queque_lists[length - 1] != item:
-            self.queque_lists.remove(item)
-            self.queque_lists.append(item)
+        length = len(self.queue_lists)
+        if self.queue_lists[length - 1] != item:
+            self.queue_lists.remove(item)
+            self.queue_lists.append(item)
 
     @staticmethod
     def get_first_list(array):
-        """ Get first element of list or None """
+        "Get first element of list or none"
         return array[0] if array else None
