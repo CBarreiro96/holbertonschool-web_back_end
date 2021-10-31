@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
+
 """
 Handling Personal Data
 """
+
+
 import logging
 import mysql.connector
 from os import environ
 import re
 from typing import List
+
 
 PII_FIELDS = ("name", "phone", "ssn", "password", "ip")
 
