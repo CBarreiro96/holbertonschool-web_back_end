@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
-
 """
-Handling Personal Data
+Module for handling Personal Data
 """
-
-
 import logging
 import mysql.connector
 from os import environ
 import re
 from typing import List
 
-
-PII_FIELDS = ("name", "phone", "ssn", "password", "ip")
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -29,9 +25,11 @@ def get_logger() -> logging.Logger:
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
+
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(RedactingFormatter(list(PII_FIELDS)))
     logger.addHandler(stream_handler)
+
     return logger
 
 
@@ -42,8 +40,10 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
     db_name = environ.get("PERSONAL_DATA_DB_NAME")
 
-    cnx = mysql.connector.connection.MySQLConnection(user=username, password=password,
-                                                     host=host, database=db_name)
+    cnx = mysql.connector.connection.MySQLConnection(user=username,
+                                                     password=password,
+                                                     host=host,
+                                                     database=db_name)
     return cnx
 
 
